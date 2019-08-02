@@ -1,6 +1,8 @@
 from datetime import datetime
 from http.server import HTTPServer, SimpleHTTPRequestHandler
 import socketserver
+import sys
+import time
 
 
 ADDR = '0.0.0.0'
@@ -22,6 +24,13 @@ class CountHandler(SimpleHTTPRequestHandler):
             return
 
         self.server.req_count += 1
+
+        if len(sys.argv) == 2:
+            try:
+                sleep_seconds = int(sys.argv[1])
+                time.sleep(sleep_seconds)
+            except:
+                pass
 
         self.send_response(200)
         self.send_header('Content-type','text/html')
