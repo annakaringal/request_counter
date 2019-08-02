@@ -19,10 +19,13 @@ TEMPLATE = (
 
 
 class CountHandler(SimpleHTTPRequestHandler):
-    def do_GET(self):
-        if self.path != '/':
-            return
+    def do_HEAD(self):
+        self.server.req_count += 1
+        print('\nrequest count:', self.server.req_count)
+        self.send_response(405)
+        return
 
+    def do_GET(self):
         self.server.req_count += 1
 
         if len(sys.argv) == 2:
